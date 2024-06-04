@@ -1,33 +1,21 @@
+# This config was automatically generated from your source code
+# Stacks detected: deps:python:.
 version: 2.1
-
+orbs:
+  python: circleci/python@2
 jobs:
-  test:
+  test-python:
+    # Install dependencies and run tests
     docker:
-      - image: circleci/python:3.12.2  # Specify the Python version you want to use
-
+      - image: cimg/python:3.8-node
     steps:
-      - checkout  # Check out the code from the repository
-
+      - checkout
+      - python/install-packages
       - run:
-          name: Set up virtual environment and install dependencies
-          command: |
-            python -m venv venv
-            . venv/bin/activate
-            pip install --upgrade pip  # Ensure pip is up-to-date
-            pip install -r requirements.txt
-
-      - run:
-          name: Verify pytest installation
-          command: |
-            . venv/bin/activate
-            pip show pytest
-
-      - run:
-          name: Run tests with pytest
-          command: |
-            . venv/bin/activate
-            pytest
-
+          name: Run tests
+          command: pytest --junitxml=junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
+      - store_test_results:
+          path: junit.xml
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:
@@ -37,15 +25,10 @@ jobs:
       - run:
           name: deploy
           command: '#e.g. ./deploy.sh'
-
 workflows:
   build-and-test:
     jobs:
-      - test
-    # - deploy:
-    #     requires:
-    #       - test
-
+      - test-python
     # - deploy:
     #     requires:
     #       - test-python
