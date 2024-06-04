@@ -29,7 +29,7 @@ jobs:
           name: Run tests with pytest
           command: |
             . venv/bin/activate
-            pytest <venv/App/TestCalculator:>
+            pytest venv/App/TestCalculator:
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:
