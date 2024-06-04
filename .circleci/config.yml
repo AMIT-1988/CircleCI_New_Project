@@ -3,11 +3,7 @@
 version: 2.1
 orbs:
   python: circleci/python@2
-jobs:
-  test-python:
-    # Install dependencies and run tests
-    docker:
-      - image: cimg/python:3.12-node
+
     steps:
       - checkout  # Check out the code from the repository
 
