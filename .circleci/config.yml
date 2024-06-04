@@ -9,13 +9,27 @@ jobs:
     docker:
       - image: cimg/python:3.12-node
     steps:
-      - checkout
-      - python/install-packages
+      - checkout  # Check out the code from the repository
+
       - run:
-          name: Run tests
-          command: pytest --junitxml=junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
-      - store_test_results:
-          path: junit.xml
+          name: Set up virtual environment and install dependencies
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip  # Ensure pip is up-to-date
+            pip install -r requirements.txt
+
+      - run:
+          name: Verify pytest installation
+          command: |
+            . venv/bin/activate
+            pip show pytest
+
+      - run:
+          name: Run tests with pytest
+          command: |
+            . venv/bin/activate
+            pytest
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:
