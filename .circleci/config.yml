@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: docker pull circleci/python:3.12.2   # Use your preferred Python version
+      - image: circleci/python:3.12.2   # Specify the Python version you want to use
 
     steps:
       - checkout  # Check out the code from the repository
@@ -27,6 +27,7 @@ jobs:
           command: |
             . venv/bin/activate
             pytest
+
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:
@@ -36,10 +37,15 @@ jobs:
       - run:
           name: deploy
           command: '#e.g. ./deploy.sh'
+
 workflows:
   build-and-test:
     jobs:
       - test
+    # - deploy:
+    #     requires:
+    #       - test
+
     # - deploy:
     #     requires:
     #       - test-python
