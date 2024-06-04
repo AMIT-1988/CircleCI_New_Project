@@ -7,7 +7,7 @@ jobs:
   test-python:
     # Install dependencies and run tests
     docker:
-      - image: cimag/python:3.12
+      - image: docker pull cimag/python:3.12
     steps:
       - checkout  # Check out the code from the repository
 
