@@ -7,7 +7,7 @@ jobs:
   test-python:
     # Install dependencies and run tests
     docker:
-      - image: circleci/python:3.12.2
+      - image: cimag/python:3.12.2
     steps:
       - checkout  # Check out the code from the repository
 
